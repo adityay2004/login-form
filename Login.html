@@ -16,7 +16,7 @@
     <div class="container">
         <div class="wrapper">
             <div class="title"><span>Login Form</span></div>
-            <form  id="form">
+            <form id="form">
                 <div class="row">
                     <i class="fa fa-envelope"></i>
                     <input type="text" placeholder="Email I'd" id="email">
@@ -34,6 +34,7 @@
             </form>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         let form = document.getElementById('form');
 
@@ -47,19 +48,35 @@
             if (email.length <= 0)
                 data = data + "Email Id is Required \n"
             if (pass.length <= 0)
-                data = data + "Password Id is Required"
+                data = data + "Password  is Required"
 
             if (data.length > 0) {
-                alert(data);
+                swal({
+                    title: "error ",
+                    text: data,
+                    icon: "error",
+                    button: "Ok",
+                });
                 return
             }
             else {
                 console.log("Submitted", email, pass);
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (emailRegex.test(email)) {
-                    alert("Successfully Login");
+                    swal({
+                        title: "Good ",
+                        text: "Successfully Login",
+                        icon: "success",
+                        button: "Ok",
+                    });
                 } else {
-                    alert("Please enter a valid email address.");
+                   
+                    swal({
+                        title: "error ",
+                        text: "Please enter a valid email address.",
+                        icon: "error",
+                        button: "Ok",
+                    });
                 }
             }
 
