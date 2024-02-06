@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Sign Up Form </title> 
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Sign Up Form</span></div>
+        <form  id="form">
+          <div class="row">
+            <i class="fa fa-user"></i>
+            <input type="text" placeholder="Full Name" id="name">
+          </div>
+          <div class="row">
+            <i class="fa fa-envelope"></i>
+            <input type="text" placeholder="Email I'd" id="email">
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" id="pass">
+          </div>
+          <div class="pass"><a href="#">Forgot password?</a></div>
+          <div class="row button">
+            <input type="submit" name="submit" value="Signup">
+           
+          </div>
+          <div class="signup-link">Already have an account ? <a href="Login.html">Signin now</a></div>
+        </form>
+      </div>
+    </div>
+    <script>
+        let form = document.getElementById('form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let user = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let pass = document.getElementById('pass').value;
+
+            let data = "";
+            if (user.length <= 0)
+                data = data + "name is Required \n"
+            if (email.length <= 0)
+                data = data + "Email Id is Required \n"
+            if (pass.length <= 0)
+                data = data + "Password Id is Required"
+
+            if (data.length > 0) {
+                alert(data);
+                return
+            }
+            else {
+                console.log("Submitted",user,email,pass);
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailRegex.test(email)) {
+                    alert("Successfully Signup" );
+                } else {
+                    alert("Please enter a valid email address.");
+                }
+            }
+
+        })
+    </script>
+  </body>
+</html>
