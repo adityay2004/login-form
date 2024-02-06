@@ -25,7 +25,10 @@
                     <i class="fas fa-lock"></i>
                     <input type="password" placeholder="Password" id="pass">
                 </div>
-                <div class="pass"><a href="#">Forgot password?</a></div>
+                <div class="row1">
+                    <input type="checkbox" placeholder="Password" id="checkbox" class="ckecxkbo">
+                    <span>Reminder me</span>
+                </div>
                 <div class="row button">
 
                     <input type="submit" name="submit" value="Login">
@@ -43,7 +46,8 @@
 
             let email = document.getElementById('email').value;
             let pass = document.getElementById('pass').value;
-
+            let checkstatus = document.getElementById('checkbox').checked;
+            console.log(checkstatus)
             let data = "";
             if (email.length <= 0)
                 data = data + "Email Id is Required \n"
@@ -63,14 +67,59 @@
                 console.log("Submitted", email, pass);
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (emailRegex.test(email)) {
-                    swal({
-                        title: "Good ",
-                        text: "Successfully Login",
-                        icon: "success",
-                        button: "Ok",
-                    });
+
+                    const userData = JSON.parse(localStorage.getItem('user'));
+                    if (userData != null) {
+                        if (userData.length > 0) {
+
+                           
+                            let obj = userData.find((o, i) => {
+                                if (o.email === email && o.password === pass) return true;
+                            });
+                            if (obj !== undefined) {
+                                
+                               
+                               // console.log(obj)
+                                if (checkstatus){
+                                    obj.status ="sucess"
+                                    localStorage.setItem('data', JSON.stringify(obj));
+                                }
+
+                                else{
+                                    obj.status ="failed"
+                                    localStorage.setItem('data', JSON.stringify(obj));
+                                   
+                                }
+                                window.location.href = "index.html"
+                            }
+                            else {
+                                swal({
+                                    title: "error ",
+                                    text: "User id not Found.",
+                                    icon: "error",
+                                    button: "Ok",
+                                });
+                            }
+                        } else {
+                            swal({
+                                title: "error ",
+                                text: "User id not Found.",
+                                icon: "error",
+                                button: "Ok",
+                            });
+                        }
+                    }
+                    else {
+
+                        swal({
+                            title: "error ",
+                            text: "User id not Found.",
+                            icon: "error",
+                            button: "Ok",
+                        });
+                    }
                 } else {
-                   
+
                     swal({
                         title: "error ",
                         text: "Please enter a valid email address.",

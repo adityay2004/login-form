@@ -26,7 +26,7 @@
           <i class="fas fa-lock"></i>
           <input type="password" placeholder="Password" id="pass">
         </div>
-        <div class="pass"><a href="#">Forgot password?</a></div>
+
         <div class="row button">
           <input type="submit" name="submit" value="Signup">
 
@@ -41,6 +41,7 @@
 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
+      debugger;
 
       let user = document.getElementById('name').value;
       let email = document.getElementById('email').value;
@@ -56,33 +57,70 @@
 
       if (data.length > 0) {
         swal({
-                title: "error ",
-                text: data,
-                icon: "error",
-                button: "Ok",
-            });
+          title: "error ",
+          text: data,
+          icon: "error",
+          button: "Ok",
+        });
         return
       }
       else {
         console.log("Submitted", user, email, pass);
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (emailRegex.test(email)) {
-          swal({
-            title: "Good ",
-            text: "Successfully Signup",
-            icon: "success",
-            button: "Ok",
-          });
-        } else {
-          swal({
-                        title: "error ",
-                        text: "Please enter a valid email address.",
-                        icon: "error",
-                        button: "Ok",
-                    });
-        }
+          debugger;
+    //       localStorage.setItem('data', null);
+    // localStorage.setItem('user', null);
+    const userData = JSON.parse(localStorage.getItem('user'));
+    if (userData != null) {
+      console.log(userData);
+      let obj = userData.find((o, i) => {
+        if (o.email === email) return true;
+      });
+
+      if (obj == undefined || obj == null) {
+
+        let id = "";
+        if (userData.length > 0)
+          id = userData.length + 1;
+
+        const userArray = [...userData, { id: id, name: user, email: email, password: pass }]
+        localStorage.setItem('user', JSON.stringify(userArray));
+      }
+      else {
+        swal({
+          title: "error ",
+          text: "This user aleardy exit .",
+          icon: "error",
+          button: "Ok",
+        });
+        return;
       }
 
+
+    }
+    else {
+      const userArray = [{ id: 1, name: user, email: email, password: pass }]
+      localStorage.setItem('user', JSON.stringify(userArray));
+    }
+
+    swal({
+      title: "Good ",
+      text: "Successfully Signup",
+      icon: "success",
+      button: "Ok",
+    });
+
+        } else {
+      swal({
+        title: "error ",
+        text: "Please enter a valid email address.",
+        icon: "error",
+        button: "Ok",
+      });
+    }
+
+      }
     })
   </script>
 </body>

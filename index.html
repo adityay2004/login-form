@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form </title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="wrapper">
+            <div class="title"><span>Data</span></div>
+            <form>
+                <div class="row5 button1">
+                    <input type="button" name="submit" onclick="logout()" value="Log Out">
+                </div>
+
+                <div class="row">
+                    <span>Name</span> : <span id="name"></span>
+                </div>
+                <div class="row">
+
+                    <span>Email</span> : <span id="email"></span>
+                </div>
+                <div class="row2">
+                    <span>Address</span> :
+                    <textarea id="address" rows="4" placeholder="Address"></textarea>
+                </div>
+
+                <div class="row button">
+                    <input type="button" name="submit" onclick="addaddress()" value="Update">
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function logout() {
+            localStorage.setItem('data', null);
+            window.location.href = "login.html";
+        }
+
+        function addaddress() {
+            let address1 = document.getElementById('address').value;
+            debugger;
+            let data = "";
+            if (address.length <= 0)
+                data = data + "Address is Required \n"
+            if (data.length > 0) {
+                swal({
+                    title: "error ",
+                    text: data,
+                    icon: "error",
+                    button: "Ok",
+                });
+                return
+            }
+            else {
+                const datashort = JSON.parse(localStorage.getItem('data'));
+                const userData = JSON.parse(localStorage.getItem('user'));
+                if (userData != null) {
+                    console.log(datashort);
+                    userData.forEach((element, index) => {
+                        if (element.email === datashort.email) {
+                            datashort.address = address1;
+                            userData[index].address = address1;
+                        }
+
+                    });
+                    localStorage.setItem('data',JSON.stringify( datashort));
+                    localStorage.setItem('user',JSON.stringify( userData));
+                    swal({
+                        title: "Good ",
+                        text: "Successfully Updated data",
+                        icon: "success",
+                        button: "Ok",
+                    });
+                }
+            }
+        }
+
+
+        window.onload = function () {
+
+            let user = document.getElementById('name');
+            let email = document.getElementById('email');
+            let addressshow = document.getElementById('address');
+            const userData = JSON.parse(localStorage.getItem('data'));
+            if (userData != null) {
+                if (userData?.status != "failed") {
+                    user.innerText = userData?.name
+                    email.innerText = userData?.email
+                    addressshow.innerText = userData?.address?userData?.address:""
+
+                }
+                else {
+                    user.innerText = userData?.name
+                    email.innerText = userData?.email
+                    addressshow.innerText = userData?.address?userData?.address:""
+                    localStorage.setItem('data', null);
+                }
+            }
+            else
+                window.location.href = "login.html";
+
+        };
+    </script>
+</body>
+
+</html>
